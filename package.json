@@ -5,11 +5,12 @@
   "main": "index.js",
   "homepage": "https://nerocui.github.io/fhl-teams-vid",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1",
+    "dev": "node server.js",
     "build": "cd sdk && yarn && yarn build && cd .. && yarn copysrc && yarn copysdk",
     "copysdk": "./node_modules/.bin/copyfiles ./sdk/dist/* ./dist",
     "copysrc": "./node_modules/.bin/copyfiles -u 1 ./src/* ./dist",
     "package": "node package.js",
+    "package-dev": "node package-dev.js",
     "deploy": "node deploy.js"
   },
   "author": "",

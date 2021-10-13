@@ -1,0 +1,8 @@
+{
+  "$schema": "https://developer.microsoft.com/en-us/json-schemas/teams/v1.7/MicrosoftTeams.Localization.schema.json",
+  "name.short": "Halloween Filter",
+  "name.full": "Halloween Filter",
+  "description.short": "MS Teams app that adds a halloween filter to your Teams meeting video footage.",
+  "description.full": "MS Teams app that adds a halloween filter to your Teams meeting video footage.",
+  "staticTabs[0].name": "Halloween Filter translated"
+}

@@ -1,0 +1,57 @@
+{
+  "$schema": "https://developer.microsoft.com/en-us/json-schemas/teams/v1.11/MicrosoftTeams.schema.json",
+  "manifestVersion": "devPreview",
+  "version": "1.0.0",
+  "showLoadingIndicator": true,
+  "id": "0dcdf188-41cb-4a07-90ac-a45aeee5b168",
+  "packageName": "com.microsoft.teams.fhlvideopp",
+  "developer": {
+      "name":"Microsoft Corp.",
+      "websiteUrl": "https://www.microsoft.com/",
+      "privacyUrl": "https://www.microsoft.com/privacy",
+      "termsOfUseUrl": "https://www.microsoft.com/termsofuse"
+  },
+  "icons": {
+      "color":"color.png",
+      "outline":"outline.png"
+  },
+  "name": {
+    "short": "FHL Teams VideoApp",
+    "full": "FHL Teams VideoApp"
+  },
+  "description": {
+    "short": "MS Teams app that adds a halloween filter to your Teams meeting video footage.",
+    "full": "MS Teams app that adds a halloween filter to your Teams meeting video footage."
+  },
+  "accentColor": "#FFFFFF",
+  "devicePermissions": ["media"],
+  "authorization": {
+    "permissions": {
+      "resourceSpecific": [
+        {
+          "name": "CameraStream.Read.User",
+          "type": "Delegated"
+        },
+        {
+          "name": "OutgoingVideoStream.Write.User",
+          "type": "Delegated"
+        }
+      ]
+    }
+  },
+  "validDomains": ["nerocui.github.io", "fhl.local"],
+  "localizationInfo": {
+    "defaultLanguageTag": "en-us"
+  },
+  "meetingExtensionDefinition": {
+    "filters": [
+      {
+        "id": "EB40C41D-F21A-4F2A-8E6A-9D0CC89CB3FF",
+        "name": "Invert Color",
+        "thumbnail": "PreviewEffect.png"
+      }
+    ],
+    "videoAppContentUrl": "https://fhl.local:3000"
+  }
+}
+  

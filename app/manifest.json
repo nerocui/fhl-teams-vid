@@ -16,42 +16,42 @@
         "outline":"outline.png"
     },
     "name": {
-      "short": "FHL Teams VideoApp",
-      "full": "FHL Teams VideoApp"
+        "short": "FHL Teams VideoApp",
+        "full": "FHL Teams VideoApp"
     },
     "description": {
-      "short": "MS Teams app that adds a halloween filter to your Teams meeting video footage.",
-      "full": "MS Teams app that adds a halloween filter to your Teams meeting video footage."
+        "short": "MS Teams app that adds a halloween filter to your Teams meeting video footage.",
+        "full": "MS Teams app that adds a halloween filter to your Teams meeting video footage."
     },
     "accentColor": "#FFFFFF",
     "devicePermissions": ["media"],
     "authorization": {
-      "permissions": {
+        "permissions": {
         "resourceSpecific": [
-          {
+            {
             "name": "CameraStream.Read.User",
             "type": "Delegated"
-          },
-          {
+            },
+            {
             "name": "OutgoingVideoStream.Write.User",
             "type": "Delegated"
-          }
+            }
         ]
-      }
+        }
     },
     "validDomains": ["nerocui.github.io"],
     "localizationInfo": {
-      "defaultLanguageTag": "en-us"
+        "defaultLanguageTag": "en-us"
     },
     "meetingExtensionDefinition": {
-      "filters": [
+        "filters": [
         {
-          "id": "EB40C41D-F21A-4F2A-8E6A-9D0CC89CB3FF",
-          "name": "Invert Color",
-          "thumbnail": "PreviewEffect.png"
+            "id": "EB40C41D-F21A-4F2A-8E6A-9D0CC89CB3FF",
+            "name": "Invert Color",
+            "thumbnail": "PreviewEffect.png"
         }
-      ],
-      "videoAppContentUrl": "https://nerocui.github.io/fhl-teams-vid/"
+        ],
+        "videoAppContentUrl": "https://nerocui.github.io/fhl-teams-vid/"
     }
-  }
+}
   
