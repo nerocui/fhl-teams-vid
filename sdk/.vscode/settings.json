@@ -1,0 +1,11 @@
+{
+  "editor.insertSpaces": true,
+  "editor.tabSize": 2,
+  "search.exclude": {
+    "**/dist": true
+  },
+  "typescript.tsdk": "./node_modules/typescript/lib",
+  "javascript.preferences.quoteStyle": "single",
+  "typescript.preferences.quoteStyle": "single",
+  "prettier.singleQuote": true
+}
