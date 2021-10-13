@@ -4,8 +4,16 @@
   "description": "",
   "main": "index.js",
   "scripts": {
-    "test": "echo \"Error: no test specified\" && exit 1"
+    "test": "echo \"Error: no test specified\" && exit 1",
+    "build": "cd sdk && yarn && yarn build && cd .. && yarn copysrc && yarn copysdk",
+    "copysdk": "./node_modules/.bin/copyfiles ./sdk/dist/* ./dist",
+    "copysrc": "./node_modules/.bin/copyfiles -u 1 ./src/* ./dist",
+    "package": "node package.js"
   },
   "author": "",
-  "license": "ISC"
+  "license": "ISC",
+  "devDependencies": {
+    "copyfiles": "^2.4.1",
+    "cross-zip": "^4.0.0"
+  }
 }
