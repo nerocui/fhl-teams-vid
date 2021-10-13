@@ -3,17 +3,20 @@
   "version": "1.0.0",
   "description": "",
   "main": "index.js",
+  "homepage": "https://nerocui.github.io/fhl-teams-vid",
   "scripts": {
     "test": "echo \"Error: no test specified\" && exit 1",
     "build": "cd sdk && yarn && yarn build && cd .. && yarn copysrc && yarn copysdk",
     "copysdk": "./node_modules/.bin/copyfiles ./sdk/dist/* ./dist",
     "copysrc": "./node_modules/.bin/copyfiles -u 1 ./src/* ./dist",
-    "package": "node package.js"
+    "package": "node package.js",
+    "deploy": "node deploy.js"
   },
   "author": "",
   "license": "ISC",
   "devDependencies": {
     "copyfiles": "^2.4.1",
-    "cross-zip": "^4.0.0"
+    "cross-zip": "^4.0.0",
+    "gh-pages": "^3.2.3"
   }
 }
