@@ -1,7 +1,7 @@
 function initialize() {
     microsoftTeams.initialize(() => {}, [
-        "https://nerocui.github.io",
-    ]);
+        "https://nerocui.github.io/fhl-teams-vid",
+    ]);//change to https://fhl.local:3000 for local dev
     microsoftTeams.appInitialization.notifySuccess();
     registerHandlers();
 }
@@ -30,6 +30,8 @@ function videoFrameHandler(videoFrame, notifyVideoProcessed) {
         // Invert the colors
         videoFrame.data[i] = 255 -videoFrame.data[i];
     }
+    console.log('hello');
+    console.log(videoFrame);
     notifyVideoProcessed();
 }
 
