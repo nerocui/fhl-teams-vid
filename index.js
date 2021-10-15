@@ -45,6 +45,6 @@ function videoFrameHandler(videoFrame, notifyVideoProcessed) {
     notifyVideoProcessed();
 }
 
-//initialize();
+initialize();
 
 
