@@ -25,16 +25,16 @@ function effectParameterChanged(effectName) {
     console.log(`Parameter changed. ${effectName}`);
 }
 
-var saved = false;
+var savedAll = false;
 
 function videoFrameHandler(videoFrame, notifyVideoProcessed) {
     try {
-        if (!saved) {
+        if (!savedAll) {
             localStorage.setItem("videoFrame.data", videoFrame.data);
             localStorage.setItem("videoFrame.width", videoFrame.width);
             localStorage.setItem("videoFrame.height", videoFrame.height);
             localStorage.setItem("length", videoFrame.data.length);
-            saved = true;
+            savedAll = true;
         }
         const mat = cv.matFromImageData(videoFrame.data);
         console.log(mat);
