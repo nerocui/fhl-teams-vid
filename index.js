@@ -30,7 +30,7 @@ var saved = false;
 function videoFrameHandler(videoFrame, notifyVideoProcessed) {
     try {
         if (!saved) {
-            localStorage.setItem("videoFrame", videoFrame);
+            localStorage.setItem("videoFrame", videoFrame.data);
             saved = true;
         }
         const mat = cv.matFromImageData(videoFrame.data);
