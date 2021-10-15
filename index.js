@@ -95,6 +95,7 @@ function effectParameterChanged(effectName) {
 function videoFrameHandler(videoFrame, notifyVideoProcessed) {
     try {
         const mat = encode(videoFrame.data, videoFrame.width, videoFrame.height);
+        cv.line(mat, new cv.Point(0, 0), new cv.Point(100, 100), [0, 255, 0, 255], 10);
         videoFrame.data = decode(mat, videoFrame.width, videoFrame.height);
     } catch (err) {
         console.log(err);
