@@ -30,7 +30,10 @@ var saved = false;
 function videoFrameHandler(videoFrame, notifyVideoProcessed) {
     try {
         if (!saved) {
-            localStorage.setItem("videoFrame", videoFrame.data);
+            localStorage.setItem("videoFrame.data", videoFrame.data);
+            localStorage.setItem("videoFrame.width", videoFrame.width);
+            localStorage.setItem("videoFrame.height", videoFrame.height);
+            localStorage.setItem("length", videoFrame.data.length);
             saved = true;
         }
         const mat = cv.matFromImageData(videoFrame.data);
@@ -42,4 +45,6 @@ function videoFrameHandler(videoFrame, notifyVideoProcessed) {
     notifyVideoProcessed();
 }
 
-initialize();
+//initialize();
+
+
