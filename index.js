@@ -11,7 +11,7 @@ function encode(nv12, width, height) {
         u_mat.data[i] = nv12[i];
     }
     for (var i = (width * height + width * height / 4); i < nv12.length; i ++) {
-        v_mat.data[i] = nv12[i + 1];
+        v_mat.data[i] = nv12[i];
     }
                 
     let u_mat_2 = new cv.Mat();
