@@ -7,14 +7,17 @@ function encode(nv12, width, height) {
         y_mat.data[i] = nv12[i];
     }
 
-    for (var i = width * height; i < nv12.length; i+=2) {
+    for (var i = width * height; i < width * height+ width*height/4; i++) {
         u_mat.data[i] = nv12[i];
+    }
+    for (var i = (width * height + width * height / 4); i < nv12.length; i ++) {
         v_mat.data[i] = nv12[i + 1];
     }
+                
     let u_mat_2 = new cv.Mat();
-    cv.resize(u_mat, u_mat_2, new cv.Size(width, height), 0, 0, cv.INTER_AREA);
+    cv.resize(u_mat, u_mat_2, new cv.Size(width, height), 0, 0, cv.INTER_NEAREST);
     let v_mat_2 = new cv.Mat();
-    cv.resize(v_mat, v_mat_2, new cv.Size(width, height), 0, 0, cv.INTER_AREA);
+    cv.resize(v_mat, v_mat_2, new cv.Size(width, height), 0, 0, cv.INTER_NEAREST);
 
     let yuv_mat = new cv.Mat(width, height, cv.CV_8UC3)
     for (var i = 0; i < nv12.length; i++) {
@@ -98,7 +101,7 @@ function videoFrameHandler(videoFrame, notifyVideoProcessed) {
         cv.line(mat, new cv.Point(0, 0), new cv.Point(100, 100), [255, 255, 255, 255], 10);
         const res = decode(mat, videoFrame.width, videoFrame.height);
         for (var i = 0; i < videoFrame.data.length; i++) {
-            videoFrame.data[i] = 255 - res[i];
+            videoFrame.data[i] = res[i];
         }
     } catch (err) {
         console.log(err);
