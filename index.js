@@ -7,9 +7,11 @@ function encode(nv12, width, height) {
         y_mat.data[i] = nv12[i];
     }
 
+    var j = 0;
     for (var i = width * height; i < nv12.length; i+=2) {
-        u_mat.data[i] = nv12[i];
-        v_mat.data[i] = nv12[i + 1];
+        u_mat.data[j] = nv12[i];
+        v_mat.data[j] = nv12[i + 1];
+        j++;
     }
     let u_mat_2 = new cv.Mat();
     cv.resize(u_mat, u_mat_2, new cv.Size(width, height), 0, 0, cv.INTER_NEAREST);
