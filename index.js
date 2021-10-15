@@ -26,8 +26,13 @@ function effectParameterChanged(effectName) {
 }
 
 function videoFrameHandler(videoFrame, notifyVideoProcessed) {
-    const mat = cv.matFromImageData(videoFrame.data);
-    console.log(mat);
+    try {
+        const mat = cv.matFromImageData(videoFrame.data);
+        console.log(mat);
+    } catch (err) {
+        console.log(err);
+    }
+    
     notifyVideoProcessed();
 }
 
