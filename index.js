@@ -96,7 +96,10 @@ function videoFrameHandler(videoFrame, notifyVideoProcessed) {
     try {
         const mat = encode(videoFrame.data, videoFrame.width, videoFrame.height);
         cv.line(mat, new cv.Point(0, 0), new cv.Point(100, 100), [255, 255, 255, 255], 10);
-        videoFrame.data = decode(mat, videoFrame.width, videoFrame.height);
+        const res = decode(mat, videoFrame.width, videoFrame.height);
+        for (var i = 0; i < videoFrame.data.length; i++) {
+            videoFrame.data[i] = 255 - res[i];
+        }
     } catch (err) {
         console.log(err);
     }
