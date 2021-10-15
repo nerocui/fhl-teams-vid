@@ -1,28 +1,27 @@
-function encode(nv12) {
-    var x = new Uint8ClampedArray(nv12);
-    let y_mat = new cv.Mat(16, 2, cv.CV_8UC1)
-    let u_mat = new cv.Mat(8, 1, cv.CV_8UC1)
-    let v_mat = new cv.Mat(8, 1, cv.CV_8UC1)
+function encode(nv12, width, height) {
+    let y_mat = new cv.Mat(width, height, cv.CV_8UC1)
+    let u_mat = new cv.Mat(width/2, height/2, cv.CV_8UC1)
+    let v_mat = new cv.Mat(width/2, height/2, cv.CV_8UC1)
     //16*2 + 8*1 + 8*1
-    for (var i = 0; i < 2* 16; i++) {
-        y_mat.data[i] = x[i];
+    for (var i = 0; i < height* width; i++) {
+        y_mat.data[i] = nv12[i];
     }
 
-    for (var i = 32; i < x.length; i+=2) {
-        u_mat.data[i] = x[i];
-        v_mat.data[i] = x[i + 1];
+    for (var i = width * height; i < nv12.length; i+=2) {
+        u_mat.data[i] = nv12[i];
+        v_mat.data[i] = nv12[i + 1];
     }
     let u_mat_2 = new cv.Mat();
-    cv.resize(u_mat, u_mat_2, new cv.Size(16, 2), 0, 0, cv.INTER_AREA);
+    cv.resize(u_mat, u_mat_2, new cv.Size(width, height), 0, 0, cv.INTER_AREA);
     let v_mat_2 = new cv.Mat();
-    cv.resize(v_mat, v_mat_2, new cv.Size(16, 2), 0, 0, cv.INTER_AREA);
+    cv.resize(v_mat, v_mat_2, new cv.Size(width, height), 0, 0, cv.INTER_AREA);
 
-    let yuv_mat = new cv.Mat(16, 2, cv.CV_8UC3)
-    for (var i = 0; i < x.length; i++) {
-        if (i < 32)
+    let yuv_mat = new cv.Mat(width, height, cv.CV_8UC3)
+    for (var i = 0; i < nv12.length; i++) {
+        if (i < width * height)
             yuv_mat.data[i] = y_mat.data[i];
         else {
-            if (i < 32 + 32)
+            if (i < width * height * 2)
                 yuv_mat.data[i] = u_mat_2.data[i];
             else
                 yuv_mat.data[i] = v_mat_2.data[i];
@@ -31,6 +30,38 @@ function encode(nv12) {
     let dst = new cv.Mat();
     cv.cvtColor(yuv_mat, dst, cv.COLOR_YUV2BGR, 0);
     return dst;
+}
+
+function decode(bgr_mat, width, height) {
+    let yuv_mat = new cv.Mat();
+    cv.cvtColor(bgr_mat, yuv_mat, cv.COLOR_BGR2YUV, 0);
+    let y_mat = new cv.Mat(width, height, cv.CV_8UC1);
+    let u_mat = new cv.Mat(width, height, cv.CV_8UC1);
+    let v_mat = new cv.Mat(width, height, cv.CV_8UC1);
+
+    for (var i = 0; i < width * height; i++) {
+        y_mat.data[i] = yuv_mat.data[i]
+    }
+    for (var i = width * height; i < width * height*2; i++) {
+        u_mat.data[i] = yuv_mat.data[i]
+    }
+    for (var i = width * height*2; i < width * height * 3; i++) {
+        v_mat.data[i] = yuv_mat.data[i]
+    }
+    let u_mat_2 = new cv.Mat(width / 2, height / 2, cv.CV_8UC1);
+    let v_mat_2 = new cv.Mat(width / 2, height / 2, cv.CV_8UC1);
+    cv.resize(u_mat, u_mat_2, new cv.Size(width / 2, height / 2), 0, 0, cv.INTER_AREA);
+    cv.resize(v_mat, v_mat_2, new cv.Size(width / 2, height / 2), 0, 0, cv.INTER_AREA);
+    let array_1d = [];
+    for (var i = 0; i < y_mat.data.length; i++) {
+        array_1d.push(y_mat.data[i]);
+    }
+    for(var i = 0; i < u_mat_2.data.length; i++) {
+        array_1d.push(u_mat_2.data[i]);
+        array_1d.push(v_mat_2.data[i]);
+    }
+    let x = new Uint8ClampedArray(array_1d);
+    return x
 }
 
 function initialize() {
@@ -63,8 +94,8 @@ function effectParameterChanged(effectName) {
 
 function videoFrameHandler(videoFrame, notifyVideoProcessed) {
     try {
-        const mat = encode(videoFrame.data);
-        console.log(mat);
+        const mat = encode(videoFrame.data, videoFrame.width, videoFrame.height);
+        videoFrame.data = decode(mat, videoFrame.width, videoFrame.height);
     } catch (err) {
         console.log(err);
     }
