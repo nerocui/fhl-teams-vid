@@ -1,43 +1,35 @@
 function encode(nv12, width, height) {
-    // let y_mat = new cv.Mat(width, height, cv.CV_8UC1)
-    // let u_mat = new cv.Mat(width/2, height/2, cv.CV_8UC1)
-    // let v_mat = new cv.Mat(width/2, height/2, cv.CV_8UC1)
-    // //16*2 + 8*1 + 8*1
-    // for (var i = 0; i < height* width; i++) {
-    //     y_mat.data[i] = nv12[i];
-    // }
+    let y_mat = new cv.Mat(width, height, cv.CV_8UC1)
+    let u_mat = new cv.Mat(width/2, height/2, cv.CV_8UC1)
+    let v_mat = new cv.Mat(width/2, height/2, cv.CV_8UC1)
+    //16*2 + 8*1 + 8*1
+    for (var i = 0; i < height* width; i++) {
+        y_mat.data[i] = nv12[i];
+    }
 
-    // var j = 0;
-    // for (var i = width * height; i < nv12.length; i+=2) {
-    //     u_mat.data[j] = nv12[i];
-    //     v_mat.data[j] = nv12[i + 1];
-    //     j++;
-    // }
-    // let u_mat_2 = new cv.Mat();
-    // cv.resize(u_mat, u_mat_2, new cv.Size(width, height), 0, 0, cv.INTER_NEAREST);
-    // let v_mat_2 = new cv.Mat();
-    // cv.resize(v_mat, v_mat_2, new cv.Size(width, height), 0, 0, cv.INTER_NEAREST);
+    var j = 0;
+    for (var i = width * height; i < nv12.length; i+=2) {
+        u_mat.data[j] = nv12[i];
+        v_mat.data[j] = nv12[i + 1];
+        j++;
+    }
+    let u_mat_2 = new cv.Mat();
+    cv.resize(u_mat, u_mat_2, new cv.Size(width, height), 0, 0, cv.INTER_NEAREST);
+    let v_mat_2 = new cv.Mat();
+    cv.resize(v_mat, v_mat_2, new cv.Size(width, height), 0, 0, cv.INTER_NEAREST);
 
-    // let yuv_mat = new cv.Mat(width, height, cv.CV_8UC3)
-    // for (var i = 0; i < nv12.length; i++) {
-    //     if (i < width * height)
-    //         yuv_mat.data[i] = y_mat.data[i];
-    //     else {
-    //         if (i < width * height * 2)
-    //             yuv_mat.data[i] = u_mat_2.data[i - width * height];
-    //         else
-    //             yuv_mat.data[i] = v_mat_2.data[i - width * height*2];
-    //     }
-    // }
-    // let dst = new cv.Mat();
-    // cv.cvtColor(yuv_mat, dst, cv.COLOR_YUV2BGR, 0);
+    let yuv_mat = new cv.Mat(width, height, cv.CV_8UC3)
+    var counter = 0;
+    for (var i = 0; i < width*height; i++) {
+        yuv_mat.data[counter] = y_mat.data[i];
+        yuv_mat.data[counter+1] = u_mat_2.data[i];
+        yuv_mat.data[counter+2] = v_mat_2.data[i];
+        counter+=3;
+    }
+    let dst = new cv.Mat();
+    cv.cvtColor(yuv_mat, dst, cv.COLOR_YUV2BGR, 0);
     
-    // return dst;
-    let imageRGB = new cv.Mat(width, height, cv.CV_8UC3)
-   
-    let  picI420 = new cv.Mat(height * 3 / 2, width, cv.CV_8UC1, nv12);
-    cv.cvtColor(picI420, imageRGB, cv2.CV_YUV2BGR_NV12); 
-    return imageRGB;
+    return dst;
 }
 
 
