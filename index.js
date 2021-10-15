@@ -19,18 +19,37 @@ function encode(nv12, width, height) {
     cv.resize(v_mat, v_mat_2, new cv.Size(width, height), 0, 0, cv.INTER_NEAREST);
 
     let yuv_mat = new cv.Mat(width, height, cv.CV_8UC3)
-    var counter = 0;
-    for (var i = 0; i < width*height; i++) {
-        yuv_mat.data[counter] = y_mat.data[i];
-        yuv_mat.data[counter+1] = u_mat_2.data[i];
-        yuv_mat.data[counter+2] = v_mat_2.data[i];
-        counter+=3;
+    for (var i = 0; i < nv12.length; i++) {
+        if (i < width * height)
+            yuv_mat.data[i] = y_mat.data[i];
+        else {
+            if (i < width * height * 2)
+                yuv_mat.data[i] = u_mat_2.data[i - width * height];
+            else
+                yuv_mat.data[i] = v_mat_2.data[i - width * height*2];
+        }
     }
     let dst = new cv.Mat();
     cv.cvtColor(yuv_mat, dst, cv.COLOR_YUV2BGR, 0);
     
     return dst;
 }
+
+// function encode(nv12, width, height) {
+//     let y_mat = new cv.Mat(width, height, cv.CV_8UC1)
+//     //16*2 + 8*1 + 8*1
+//     for (var i = 0; i < height* width; i++) {
+//         y_mat.data[i] = nv12[i];
+//     }
+//     let yuv_mat = new cv.Mat(width, height, cv.CV_8UC3)
+//     for (var i = 0; i < width*height; i++) {
+//         yuv_mat.data[i] = y_mat.data[i];
+//     }
+//     let dst = new cv.Mat();
+//     cv.cvtColor(yuv_mat, dst, cv.COLOR_YUV2BGR, 0);
+    
+//     return dst;
+// }
 
 
 function decode(bgr_mat, width, height) {
@@ -64,6 +83,23 @@ function decode(bgr_mat, width, height) {
     let x = new Uint8ClampedArray(array_1d);
     return x
 }
+
+// function decode(bgr_mat, width, height) {
+//     let yuv_mat = new cv.Mat();
+//     cv.cvtColor(bgr_mat, yuv_mat, cv.COLOR_BGR2YUV, 0);
+//     let y_mat = new cv.Mat(width, height, cv.CV_8UC1);
+
+//     for (var i = 0; i < width * height; i++) {
+//         y_mat.data[i] = yuv_mat.data[i]
+//     }
+
+//     let array_1d = [];
+//     for (var i = 0; i < y_mat.data.length; i++) {
+//         array_1d.push(y_mat.data[i]);
+//     }
+//     let x = new Uint8ClampedArray(array_1d);
+//     return x
+// }
 
 function initialize() {
     microsoftTeams.initialize(() => {}, [
