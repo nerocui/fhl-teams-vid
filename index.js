@@ -22,15 +22,16 @@ function encode(nv12, width, height) {
             yuv_mat.data[i] = y_mat.data[i];
         else {
             if (i < width * height * 2)
-                yuv_mat.data[i] = u_mat_2.data[i];
+                yuv_mat.data[i] = u_mat_2.data[i - width * height];
             else
-                yuv_mat.data[i] = v_mat_2.data[i];
+                yuv_mat.data[i] = v_mat_2.data[i - width * height*2];
         }
     }
     let dst = new cv.Mat();
     cv.cvtColor(yuv_mat, dst, cv.COLOR_YUV2BGR, 0);
     return dst;
 }
+
 
 function decode(bgr_mat, width, height) {
     let yuv_mat = new cv.Mat();
